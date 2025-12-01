@@ -87,9 +87,10 @@ export function createWindow() {
     mainWindow = undefined
   })
   win.on('resize', () => {
-    if (config.store.get('isMenuBarMode')) {
-      tray.alignWindowWithTray(win)
-    } else if (config.store.get('lockOnCenter')) {
+    if (
+      config.store.get('lockOnCenter') &&
+      !config.store.get('isMenuBarMode')
+    ) {
       center(win)
     }
   })
@@ -248,9 +249,10 @@ function updateBrowserWindowOptions() {
     Math.floor(options.minHeight || 0),
   )
 
+  const currentDisplay = screen.getDisplayFromWindow(mainWindow)
   mainWindow.setMaximumSize(
-    Math.ceil(options.maxWidth || screen.getDisplayFromCursor().size.width),
-    Math.ceil(options.maxHeight || screen.getDisplayFromCursor().size.height),
+    Math.ceil(options.maxWidth || currentDisplay.size.width),
+    Math.ceil(options.maxHeight || currentDisplay.size.height),
   )
 
   mainWindow.setMovable(options.movable !== false)

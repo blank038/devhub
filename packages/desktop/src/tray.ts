@@ -90,8 +90,9 @@ export function alignWindowWithTray(win: BrowserWindow) {
   const xSpacing = 10
   const ySpacing = 0
 
-  const workArea = screen.getDisplayFromCursor().workArea
-  const screenSize = screen.getDisplayFromCursor().size
+  const display = screen.getDisplayFromWindow(win)
+  const workArea = display.workArea
+  const screenSize = display.size
 
   let trayBounds = tray.getBounds()
   if (
